@@ -21,3 +21,6 @@ const a = 100
 // 可以使用 new Function创建沙箱环境
 let fn = new Function('a', 'b', 'console.log(a)')
 console.log(fn(a))
+// 虚拟机模块
+const vm = require('vm')
+vm.runInThisContext(`console.log(a)`)
