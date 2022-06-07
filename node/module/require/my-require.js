@@ -36,8 +36,6 @@ Module._extensions = {
     // 这里特意指向exports，方便两种写法，
     // module.exprots / exports 直接导出 / 或者  this.a
     fn.call(exports, exports, require, module, __filename, __dirname)
-    // const fn = new Function(fnStr)
-    // fn.call(module)
   },
   '.json': function (module) {
     const content = fs.readFileSync(module.id, 'utf-8')
@@ -57,9 +55,16 @@ Module._getFilePath = (filepath) => {
     }
   }
 }
+Module.cache = {}
 Module._load = function (path) {
   const filePath = Module._getFilePath(path)
+  // 缓存文件信息
+  const cacheModule = Module.cache[filePath]
+  if (cacheModule) {
+    return cacheModule.exports
+  }
   const module = new Module(filePath)
+  Module.cache[filePath] = module
   module.load()
   return module.exports
 }
