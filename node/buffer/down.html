@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 前端的二进制 文件类型 Blob 二进制文件类型
+      // input type file 类型 =》 继承于Blob
+      // 前端下载 将字符串变成二进制类型
+      let str = `<div>123<div>`
+      const blob = new Blob([str], {
+        type: 'text/html'
+      })
+      const a = document.createElement('a')
+      a.setAttribute('download', 'index.html')
+      a.href = URL.createObjectURL(blob)
+      a.clik()
+    </script>
+  </body>
+</html>
