@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-07-01 10:44
- * @LastEditTime: 2022-07-04 11:10
+ * @LastEditTime: 2022-07-07 16:26
  * @Description: 进制转换
  */
 // 任意进制转换成10进制
@@ -12,7 +12,7 @@ console.log((0x16).toString(16))
 // node文件读取，操作的内容会默认存在内存中，但是内存中默认是二进制
 // node会把二进制转换成16进制来展示
 const fs = require('fs')
-const r = fs.readFileSync('./note.md')
+const r = fs.readFileSync('note.md')
 console.log(r)
 console.log(r.toString()) // buffer 和 字符串可以相互转换
 

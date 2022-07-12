@@ -2,7 +2,8 @@
 // buffer的三种声明方式
 const buffer = Buffer.alloc(5) // 开发中数字都是字节单位
 const buffer1 = Buffer.from('测试')
-
+const buffer2 = Buffer.from([0x11, 0x22])
+console.log(buffer2)
 // Buffer的常用方法
 // isBuffer copy concat length
 
