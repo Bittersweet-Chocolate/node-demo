@@ -9,6 +9,9 @@
 ### 通过npm-link
 1. 运行文件加上 `#! /usr/bin/env node`
 
+`packname`即`package.json`中`name`的名称
+移除通过`npm link`加入的全局包 命令 `npm unlink <packname> -g`
+
 ## 安装项目包
 
 - `peerDependencies`

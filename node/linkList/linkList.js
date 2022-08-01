@@ -69,14 +69,14 @@ class LinkedList {
     this.head = reverse(this.head)
     return this.head
   }
-  // 珠峰的第二种方式
+  // 珠峰的第二种方式 非递归翻转
   // 弄一个新链表，把新链表的头每次重新引用
   reverse3() {
     let head = this.head
     if (head === null || head.next === null) return head
     let newHead = null
     while (head !== null) {
-      let temp = head.next // 保留下一个
+      let temp = head.next // 获取下一个
       head.next = newHead // a => null
       newHead = head // newHead => a
       head = temp
