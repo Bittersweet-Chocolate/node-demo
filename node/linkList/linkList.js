@@ -4,7 +4,7 @@ class Node {
     this.next = next
   }
 }
-class LinkedList {
+class LinkList {
   constructor() {
     this.head = null
     this.size = 0
@@ -75,7 +75,7 @@ class LinkedList {
     let head = this.head
     if (head === null || head.next === null) return head
     let newHead = null
-    while (head !== null) {
+    while (head) {
       let temp = head.next // 获取下一个
       head.next = newHead // a => null
       newHead = head // newHead => a
@@ -84,15 +84,30 @@ class LinkedList {
     this.head = newHead
     return this.head
   }
+  remove(index) {
+    this.size--
+    if (index === 0) {
+      const node = this.head
+      this.head = (node && node.next) || null
+      return (node && node.ele) || null
+    } else {
+      const preNode = this.getNode(index - 1)
+      const node = preNode.next
+      preNode.next = (node && node.next) || null
+      return node.ele
+    }
+  }
 }
-const ll = new LinkedList()
-ll.add(100)
-ll.add(1, 200)
-ll.add(1, 300)
-ll.add(3, 500)
-ll.reverse3()
-console.dir(ll, { depth: 1000 })
+// const ll = new LinkList()
+// ll.add(100)
+// ll.add(1, 200)
+// ll.add(1, 300)
+// ll.add(3, 500)
+// ll.reverse3()
+// ll.remove(3)
+// console.dir(ll, { depth: 1000 })
 
 // 100
 // 200 100
 // 200 300 100
+module.exports = LinkList
