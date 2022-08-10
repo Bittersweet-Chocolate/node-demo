@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-07-07 11:19
- * @LastEditTime: 2022-07-07 16:25
+ * @LastEditTime: 2022-08-10 16:31
  * @Description: 手动实现copy
  */
 const fs = require('fs')
@@ -28,7 +28,7 @@ function copy(soucre, target, callback) {
               return next()
             }
             fs.close(rfd, () => {})
-            fs.close(rfd, () => {})
+            fs.close(wfd, () => {})
             callback()
           })
         })

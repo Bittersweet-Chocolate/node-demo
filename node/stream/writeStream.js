@@ -1,3 +1,9 @@
+/*
+ * @Author: czh-mac
+ * @Date: 2022-08-02 14:39
+ * @LastEditTime: 2022-08-10 16:21
+ * @Description: 头部注释
+ */
 const fs = require('fs')
 const path = require('path')
 const myWriteStream = require('./my-writeStream')
@@ -13,7 +19,7 @@ let ws = new myWriteStream(path.resolve(__dirname, '../file/name.txt'), {
 
 // 写入的类型必须是string or buffer
 // 根据highWaterMark设定的预期占用，返回一个boolean
-let flag = ws.write('你', () => {
+let flag = ws.write('你号', () => {
   console.log('成功1')
 })
 console.log(flag)
@@ -25,6 +31,6 @@ ws.on('drain', () => {
   console.log('drain')
 })
 // 最后一次end 也会写入
-// ws.end('啊!!', () => {
-//   console.log('成功3')
-// })
+ws.end('啊!!', () => {
+  console.log('成功3')
+})

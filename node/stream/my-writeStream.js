@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-08-02 15:46
- * @LastEditTime: 2022-08-04 16:41
+ * @LastEditTime: 2022-08-10 16:30
  * @Description: 实现可写入流
  */
 
@@ -48,13 +48,17 @@ class myWriteStream extends EventEmitter {
     })
   }
   write(chunk, encoding = 'utf8', cb = () => {}) {
+    if (arguments.length === 2) {
+      cb = encoding
+      encoding = 'utf8'
+    }
     // 用户的接入操作
     chunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
     this.len += chunk.length
     console.log('len----', this.len)
     // 判断是否触发drain
-    let flag = this.len < this.highWaterMark
-    this.needDrain = !flag
+    let flag = this.len >= this.highWaterMark
+    this.needDrain = flag
     // 是否写入中，塞入缓存或者真正写入
     if (this.writing) {
       this.cache.offer({
@@ -63,10 +67,10 @@ class myWriteStream extends EventEmitter {
         cb
       })
     } else {
-      this.writing = true
+      this.writing = true // 标识正在写入
       this._wirte(chunk, encoding, () => {
         cb()
-        this.cleanBuffer()
+        this.cleanBuffer() // 当前内容写入完成之后，清空缓存区的内容
       })
     }
     return flag
@@ -98,6 +102,13 @@ class myWriteStream extends EventEmitter {
         this.emit('darin')
       }
     }
+  }
+  end(chunk, cb = () => {}) {
+    cb = () => {
+      fs.close(this.fd, () => {})
+      cb()
+    }
+    this.write(chunk, cb)
   }
 }
 module.exports = myWriteStream
