@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-08-02 15:46
- * @LastEditTime: 2022-08-10 16:30
+ * @LastEditTime: 2022-08-11 14:30
  * @Description: 实现可写入流
  */
 
@@ -55,7 +55,6 @@ class myWriteStream extends EventEmitter {
     // 用户的接入操作
     chunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
     this.len += chunk.length
-    console.log('len----', this.len)
     // 判断是否触发drain
     let flag = this.len >= this.highWaterMark
     this.needDrain = flag
@@ -73,7 +72,7 @@ class myWriteStream extends EventEmitter {
         this.cleanBuffer() // 当前内容写入完成之后，清空缓存区的内容
       })
     }
-    return flag
+    return !flag
   }
   _wirte(chunk, encoding, cb) {
     if (typeof this.fd !== 'number') {
@@ -90,7 +89,6 @@ class myWriteStream extends EventEmitter {
     let data = this.cache.poll()
     if (data) {
       const { chunk, encoding, cb } = data
-      console.log(chunk.toString())
       this._wirte(chunk, encoding, () => {
         cb()
         this.cleanBuffer()
@@ -99,7 +97,7 @@ class myWriteStream extends EventEmitter {
       this.writing = false
       if (this.needDrain) {
         this.needDrain = false
-        this.emit('darin')
+        this.emit('drain')
       }
     }
   }
