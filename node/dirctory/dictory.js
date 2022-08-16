@@ -1,20 +1,38 @@
-/*
- * @Author: czh-mac
- * @Date: 2022-08-11 16:31
- * @LastEditTime: 2022-08-12 09:02
- * @Description: 头部注释
- */
+// var fs = require('fs').promises
+// 使用promises 既返回的是promise类型
 var fs = require('fs')
-function mkdirP(path) {
+
+// 同步性能更好
+function mkdirP(path, cb) {
   const arr = path.split('/')
-  let currendPath = ''
+  let currrentPath = ''
   arr.forEach((item) => {
-    currendPath += `${item}/`.slice(0, -1)
-    // const p = currendPath.slice(0, -1)
-    // if (!fs.existsSync(p)) {
-    //   fs.mkdirSync(p)
-    // }
+    currrentPath += `${item}/`
+    if (!fs.existsSync(currrentPath)) {
+      fs.mkdirSync(currrentPath)
+    }
   })
+  cb()
 }
 
-mkdirP('a/b')
+// 异步行为不会阻塞进程
+// function mkdirP(path, cb) {
+//   const arr = path.split('/')
+//   let index = 0
+//   function next() {
+//     if (index === arr.length) return cb()
+//     let currrentPath = arr.slice(0, ++index).join('/')
+//     fs.access(currrentPath, (err) => {
+//       if (err) {
+//         fs.mkdir(currrentPath, next)
+//       } else {
+//         next()
+//       }
+//     })
+//   }
+//   next()
+// }
+
+mkdirP('a/b/c/d/e', () => {
+  console.log('创建完成')
+})
