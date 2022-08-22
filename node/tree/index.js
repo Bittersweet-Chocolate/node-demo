@@ -71,7 +71,7 @@ class BST {
     traversal(this.root)
   }
   // 层序遍历
-  levelOrderTraversal() {
+  levelOrderTraversal(visitor = null) {
     if (this.root === null) return
     // 采用队列的形式，从子节点开始，进行指针的下一位切换插入每一层
     // [10,8,9,12]
@@ -96,11 +96,12 @@ class BST {
     stack = null
   }
   // 翻转二叉树  层序遍历加左右交换
-  invertTree() {
+  invertTree(visitor = null) {
     if (this.root === null) return
     let stack = [this.root]
     let index = 0
     let currentNode = null
+    // 10 12 9 8
     while ((currentNode = stack[index++])) {
       visitor.visit(currentNode)
       ;[currentNode.left, currentNode.right] = [
@@ -116,7 +117,6 @@ class BST {
       index++
       currentNode = stack[index]
     }
-    console.log(stack)
     stack = null
   }
 }
@@ -134,7 +134,7 @@ bst.add(12)
 // console.dir(bst, { depth: 1000 })
 // 遍历的方式，前/中/后序  修改数的节点，可以采用访问者模式
 // 访问某个节点
-bst.levelOrderTraversal({
+bst.invertTree({
   visit(node) {
     // console.log(node)
   }
