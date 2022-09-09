@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-06-29 15:13
- * @LastEditTime: 2022-06-29 16:14
+ * @LastEditTime: 2022-09-09 16:21
  * @Description: 手动实现发布订阅
  */
 function EventEmitter() {
@@ -37,13 +37,12 @@ EventEmitter.prototype.once = function (eventName, cb) {
 }
 
 // protype
-// console.log('prototype===', EventEmitter.prototype)
-// function a() {}
-// Object.setPrototypeOf(a.prototype, EventEmitter.prototype)
-// var b = new a()
-// var c = new EventEmitter()
-// 使用原型链继承不会继承this上的
-// console.log(b._events)
-// console.log(c._events)
+function a() {}
+// Object.setPrototypeOf(a, EventEmitter.prototype)
+Object.setPrototypeOf(a, new EventEmitter())
+var b = new a()
+var c = new EventEmitter()
+console.log(b.__proto__._events)
+console.log(c._events)
 
 module.exports = EventEmitter
