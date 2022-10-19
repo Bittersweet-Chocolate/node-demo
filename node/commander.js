@@ -1,9 +1,3 @@
-/*
- * @Author: czh-mac
- * @Date: 2022-05-31 15:27
- * @LastEditTime: 2022-07-01 09:14
- * @Description: 头部注释
- */
 const { Command } = require('commander')
 const program = new Command()
 program

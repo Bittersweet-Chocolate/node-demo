@@ -11,6 +11,7 @@
       "skipFiles": [
         // "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/node/module/require/my-require.js"
+      "program": "${workspaceFolder}/node/stream/pipe.js"
+    }
   ]
 }

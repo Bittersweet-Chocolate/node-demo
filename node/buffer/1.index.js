@@ -1,9 +1,10 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-07-01 10:44
- * @LastEditTime: 2022-07-07 16:26
+ * @LastEditTime: 2022-09-22 10:42
  * @Description: 进制转换
  */
+const path = require('path')
 // 任意进制转换成10进制
 console.log(parseInt('377', 8))
 // 任意进制转换成任意进制
@@ -12,7 +13,9 @@ console.log((0x16).toString(16))
 // node文件读取，操作的内容会默认存在内存中，但是内存中默认是二进制
 // node会把二进制转换成16进制来展示
 const fs = require('fs')
-const r = fs.readFileSync('note.md')
+const url = path.resolve(__dirname, 'note.md')
+console.log(url)
+const r = fs.readFileSync(url)
 console.log(r)
 console.log(r.toString()) // buffer 和 字符串可以相互转换
 
@@ -22,6 +25,7 @@ console.log(r.toString()) // buffer 和 字符串可以相互转换
 // 举例
 let buffer = Buffer.from('陈')
 console.log(buffer) // e9 99 88
+console.log(buffer.toString())
 console.log(buffer.toString('base64'))
 console.log((0xe9).toString(2)) // 11101001
 console.log((0x99).toString(2)) // 10011001

@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-07-07 17:08
- * @LastEditTime: 2022-08-11 15:39
+ * @LastEditTime: 2022-10-10 11:10
  * @Description: 手动实现fs的流读取
  */
 const EventEmitter = require('events')
