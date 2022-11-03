@@ -1,6 +1,14 @@
+/*
+ * @Author: czh-mac
+ * @Date: 2022-05-31 15:27
+ * @LastEditTime: 2022-10-20 09:09
+ * @Description: 头部注释
+ */
 const { Command } = require('commander')
 const program = new Command()
-program
+
+const service = new Command('service')
+service
   .command('start [port]')
   .description('start service at some port')
   .action((port) => {
@@ -19,6 +27,4 @@ program
 //   // <v>必填 [v]选填
 //   .option('-p,--port <v>', '设置你的端口号') // 设定局限入参
 //   .parse(process.argv)
-const options = program.opts()
-// console.log(options)
-// console.log(process.argv)
+program.addCommand(service)
