@@ -3,8 +3,11 @@ const fs = require('fs').promises
 const { createReadStream, createWirteStream, readFileSync } = require('fs')
 const url = require('url')
 const path = require('path')
-
+const zlib = require('zlib')
 const ejs = require('ejs')
+// echo $DEBUG
+// DEBUG=server node www.js
+// unset DEBUG
 const debug = require('debug')('server')
 const mime = require('mime')
 const chalk = require('chalk')
@@ -52,7 +55,17 @@ class Server {
     res.setHeader('Contetn-Type', mime.getType('index.html') + ';charset=uft-8')
     res.end(templateStr)
   }
+  gzip() {
+    return zlib.createGzip()
+  }
   sendFile(req, res, filePath, statObj) {
+    // 服务端文件=》压缩 =》 客户端
+    // 需要根据header 看浏览器是否支持压缩
+    let gzip = this.gzip(req, res, filePath, statObj)
+    if (gzip) {
+      createReadStream(filePath).pipe(gzip).pipe(res)
+      return
+    }
     res.setHeader('Content-Type', mime.getType(filePath) + ';charset=uft-8')
     createReadStream(filePath).pipe(res)
   }
