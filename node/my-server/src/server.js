@@ -1,3 +1,9 @@
+/*
+ * @Author: czh-mac
+ * @Date: 2022-10-20 14:50
+ * @LastEditTime: 2022-11-17 17:02
+ * @Description: 头部注释
+ */
 const http = require('http')
 const fs = require('fs').promises
 const { createReadStream, createWirteStream, readFileSync } = require('fs')
@@ -55,18 +61,26 @@ class Server {
     res.setHeader('Contetn-Type', mime.getType('index.html') + ';charset=uft-8')
     res.end(templateStr)
   }
-  gzip() {
-    return zlib.createGzip()
+  gzip(req, res, filePath, statObj) {
+    if (
+      req.headers['accept-encoding'] &&
+      req.headers['accept-encoding'].includes('gzip')
+    ) {
+      res.setHeader('Content-Encoding', 'gzip')
+      return require('zlib').createGzip()
+    } else {
+      return false
+    }
   }
   sendFile(req, res, filePath, statObj) {
     // 服务端文件=》压缩 =》 客户端
     // 需要根据header 看浏览器是否支持压缩
-    let gzip = this.gzip(req, res, filePath, statObj)
+    const gzip = this.gzip(req, res, filePath, statObj)
     if (gzip) {
+      res.setHeader('Content-type', mime.getType(filePath) + ';charset=utf-8')
       createReadStream(filePath).pipe(gzip).pipe(res)
       return
     }
-    res.setHeader('Content-Type', mime.getType(filePath) + ';charset=uft-8')
     createReadStream(filePath).pipe(res)
   }
   sendError(req, res, e) {
@@ -81,7 +95,7 @@ class Server {
       console.log(
         chalk.yellow(`Starting up http-sever, serving on ${this.dir}`)
       )
-      console.log(chalk.green(`${this.host}:${this.port}`))
+      console.log(chalk.green(`http://${this.host}:${this.port}`))
     })
   }
 }
