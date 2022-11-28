@@ -1,9 +1,3 @@
-/*
- * @Author: czh-mac
- * @Date: 2022-10-20 14:50
- * @LastEditTime: 2022-11-17 17:02
- * @Description: 头部注释
- */
 const http = require('http')
 const fs = require('fs').promises
 const { createReadStream, createWirteStream, readFileSync } = require('fs')
