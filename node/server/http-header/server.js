@@ -29,9 +29,9 @@ let server = http.createServer((req, res) => {
     if (pathname === '/login') {
       if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
         let obj = querystring.parse(value, '&', '=')
-        console.log(obj)
         res.setHeader('Content-Type', 'application/json')
-        res.end(JSON.stringify(obj))
+        // res.end(JSON.stringify(obj))
+        res.end('login')
       }
       return
     }
