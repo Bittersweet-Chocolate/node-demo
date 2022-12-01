@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-11-28 16:53
- * @LastEditTime: 2022-11-29 10:09
+ * @LastEditTime: 2022-11-30 10:37
  * @Description: 中间层
  */
 // 中间层的方式，node请求别的服务没有跨域问题
@@ -9,7 +9,7 @@ const http = require('http')
 
 const client = http.request(
   {
-    path: '/reg',
+    path: '/login',
     hostname: 'localhost',
     port: 3000,
     method: 'POST',

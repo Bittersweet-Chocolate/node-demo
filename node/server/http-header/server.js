@@ -29,10 +29,10 @@ let server = http.createServer((req, res) => {
     if (pathname === '/login') {
       if (req.headers['content-type'] === 'application/x-www-form-urlencoded') {
         let obj = querystring.parse(value, '&', '=')
-        res.setHeader('Content-Type', 'application/json')
+        // res.setHeader('Content-Type', 'application/json')
         // res.end(JSON.stringify(obj))
-        res.end('login')
       }
+      res.end('login')
       return
     }
     if (pathname === '/reg' && req.method === 'POST') {
