@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-11-30 10:40
- * @LastEditTime: 2022-12-09 17:18
+ * @LastEditTime: 2022-12-14 09:23
  * @Description: 缓存相关
  */
 const http = require('http')
@@ -22,6 +22,8 @@ http
       } else {
         // 查看文件时间
         let lastModified = statObj.ctime.toGMTString()
+        console.log('文件时间', lastModified)
+        console.log('上次获取时间', ifModifiedSince)
         if (ifModifiedSince === lastModified) {
           res.statusCode = 304
           return res.end()

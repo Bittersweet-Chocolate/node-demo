@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2022-11-30 10:40
- * @LastEditTime: 2022-12-02 16:34
+ * @LastEditTime: 2022-12-13 15:41
  * @Description: 缓存相关
  */
 // 配置强制缓存和协商缓存
@@ -16,7 +16,7 @@ http
   .createServer((req, res) => {
     const { pathname } = url.parse(req.url)
     console.log(pathname)
-    const filePath = path.join(__dirname, pathname)
+    const filePath = path.join(__dirname, `../${pathname}`)
     // expires 绝对时间 老版本浏览器支持
     // cache-control 相对时间
     // 默认强制缓存， 不缓存首页（如果已经断网，那这个页面应该访问不到，所以页面不会被强制缓存）
