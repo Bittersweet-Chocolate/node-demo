@@ -5,6 +5,7 @@ const url = require('url')
 const path = require('path')
 const zlib = require('zlib')
 const ejs = require('ejs')
+const crypto = require('crypto')
 // echo $DEBUG
 // DEBUG=server node www.js
 // unset DEBUG
@@ -31,12 +32,15 @@ class Server {
       if (statObj.isFile()) {
         this.sendFile(req, res, filePath, statObj)
       } else {
-        // const concatPath = path.join(filePath, 'index.html')
-        const concatPath = path.join(filePath)
-        let statObj = await fs.stat(concatPath)
-        statObj.isFile()
-          ? this.sendFile(req, res, concatPath, statObj)
-          : this.showList(req, res, filePath, statObj, pathname)
+        const concatPath = path.join(filePath, 'index.html')
+        try {
+          let statObj = await fs.stat(concatPath)
+          statObj.isFile()
+            ? this.sendFile(req, res, concatPath, statObj)
+            : this.showList(req, res, filePath, statObj, pathname)
+        } catch (e) {
+          this.showList(req, res, filePath, statObj, pathname)
+        }
       }
     } catch (e) {
       this.sendError(req, res, e)
@@ -61,12 +65,36 @@ class Server {
       req.headers['accept-encoding'].includes('gzip')
     ) {
       res.setHeader('Content-Encoding', 'gzip')
-      return require('zlib').createGzip()
+      return zlib.createGzip()
     } else {
       return false
     }
   }
-  sendFile(req, res, filePath, statObj) {
+  async cache(req, res, filePath, statObj) {
+    res.setHeader('Expires', new Date(Date.now() + 10 * 1000).toGMTString())
+    res.setHeader('Cache-Control', 'max-age=10')
+    const fileContent = await fs.readFile(filePath)
+    const {
+      'if-none-match': ifNoneMatch,
+      'if-modified-since': ifModifiedSince
+    } = req.headers
+    // 文件内容
+    const eTag = crypto.createHash('md5').update(fileContent).digest('base64')
+    // 文件修改的时间戳
+    const ctime = statObj.ctime.toGMTString()
+    res.setHeader('Last-Modified', ctime)
+    res.setHeader('Etag', eTag)
+    if (ifNoneMatch === eTag && ifModifiedSince === ctime) {
+      return true
+    }
+    return false
+  }
+  async sendFile(req, res, filePath, statObj) {
+    let cache = await this.cache(req, res, filePath, statObj)
+    if (cache) {
+      res.statusCode = 304
+      return res.end()
+    }
     // 服务端文件=》压缩 =》 客户端
     // 需要根据header 看浏览器是否支持压缩
     const gzip = this.gzip(req, res, filePath, statObj)

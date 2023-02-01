@@ -8,8 +8,10 @@ const resConfig = {}
 Object.values(config).forEach((val) => {
   if (val.option) program.option(val.option, val.des)
 })
-
 program.version(version)
+program.name('czh')
+program.usage('my-server')
+program.description('文件映射')
 program.on('--help', () => {
   console.log('Examples:')
   Object.values(config).forEach((val) => {

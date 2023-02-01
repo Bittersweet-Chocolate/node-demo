@@ -18,5 +18,4 @@ const config = {
     default: 'localhost'
   }
 }
-console.log(__dirname)
 module.exports = config
