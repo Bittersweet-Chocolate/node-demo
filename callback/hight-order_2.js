@@ -1,7 +1,7 @@
 /*
  * @Author: czh-mac
  * @Date: 2023-03-07 14:49
- * @LastEditTime: 2023-03-07 16:30
+ * @LastEditTime: 2023-04-27 14:33
  * @Description: 柯理化函数
  */
 function isType(typing) {
@@ -39,4 +39,4 @@ const currying = (fn, arr = []) => {
 }
 
 let isArray = currying(showType)('Array')
-console.log(isArray([]))
+console.log(isArray())
